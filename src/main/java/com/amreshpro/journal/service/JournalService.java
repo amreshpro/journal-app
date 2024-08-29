@@ -2,6 +2,7 @@ package com.amreshpro.journal.service;
 
 import com.amreshpro.journal.entity.JournalEntity;
 import com.amreshpro.journal.repository.JournalRepository;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +27,7 @@ public class JournalService {
         return journalRepository.findAll();
     }
 
-    public Optional<JournalEntity> getJournalById(String id) {
+    public Optional<JournalEntity> getJournalById(ObjectId id) {
         return journalRepository.findById(id);
     }
 
@@ -42,7 +43,7 @@ public class JournalService {
         }
     }
 
-    public Boolean deleteJournalById(String id) {
+    public Boolean deleteJournalById(ObjectId id) {
         Boolean isJournalExist = journalRepository.existsById(id);
         if (isJournalExist) {
             journalRepository.deleteById(id);

@@ -3,6 +3,7 @@ package com.amreshpro.journal.controller;
 
 import com.amreshpro.journal.entity.JournalEntity;
 import com.amreshpro.journal.service.JournalService;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,6 @@ public class JournalController {
 
     @PostMapping
     public ResponseEntity<Boolean> saveJournal(@RequestBody JournalEntity journalEntity) {
-
         return new ResponseEntity<>(journalService.saveJournal(journalEntity), HttpStatus.CREATED);
     }
 
@@ -39,7 +39,7 @@ public class JournalController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<JournalEntity>> getJournalById(@PathVariable String id) {
+    public ResponseEntity<Optional<JournalEntity>> getJournalById(@PathVariable ObjectId id) {
 
         Optional<JournalEntity> journalEntity = journalService.getJournalById(id);
         if (!journalEntity.isEmpty()) {
@@ -68,7 +68,7 @@ public class JournalController {
 
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Boolean> deleteJournalById(@PathVariable String id) {
+    public ResponseEntity<Boolean> deleteJournalById(@PathVariable ObjectId id) {
         Boolean isSuccessfullyDeleted = journalService.deleteJournalById(id);
         if(isSuccessfullyDeleted){
             return new ResponseEntity<>(true, HttpStatus.OK);
