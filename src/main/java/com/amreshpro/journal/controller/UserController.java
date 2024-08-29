@@ -12,15 +12,15 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/v1/User")
+@RequestMapping("/api/v1/user")
 public class UserController {
 
     @Autowired
     UserService userService;
 
     @PostMapping
-    public ResponseEntity<Boolean> saveUser(@RequestBody UserEntity UserEntity) {
-        return new ResponseEntity<>(UserService.saveUser(UserEntity), HttpStatus.CREATED);
+    public ResponseEntity<Boolean> saveUser(@RequestBody UserEntity userEntity) {
+        return new ResponseEntity<>(userService.saveUser(userEntity), HttpStatus.CREATED);
     }
 
 
@@ -56,22 +56,17 @@ public class UserController {
 
         if (userService.updateUserById(userEntity)) {
             return new ResponseEntity<>(true, HttpStatus.OK);
-
         } else {
             return new ResponseEntity<>(false, HttpStatus.NO_CONTENT);
-
         }
-
-
     }
 
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Boolean> deleteUserById(@PathVariable ObjectId id) {
-        Boolean isSuccessfullyDeleted = UserService.deleteUserById(id);
+        Boolean isSuccessfullyDeleted = userService.deleteUserById(id);
         if(isSuccessfullyDeleted){
             return new ResponseEntity<>(true, HttpStatus.OK);
-
         }
         return new ResponseEntity<>(false, HttpStatus.NO_CONTENT);
 
