@@ -23,6 +23,7 @@ public class UserEntity {
     private String userName;
     @NonNull
     private  String password;
+    private LocalDateTime date;
     @DBRef
     private  ArrayList<JournalEntity> journals = new ArrayList<>();
 
