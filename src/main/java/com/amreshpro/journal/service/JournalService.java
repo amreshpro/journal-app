@@ -3,9 +3,7 @@ package com.amreshpro.journal.service;
 import com.amreshpro.journal.entity.JournalEntity;
 import com.amreshpro.journal.repository.JournalRepository;
 import org.bson.types.ObjectId;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -13,8 +11,13 @@ import java.util.Optional;
 @Service
 public class JournalService {
 
-    @Autowired
-    private JournalRepository journalRepository;
+
+    private final JournalRepository journalRepository;
+
+    //    DI
+    JournalService(JournalRepository journalRepository) {
+        this.journalRepository = journalRepository;
+    }
 
     public Boolean saveJournal(JournalEntity journalEntity) {
         journalEntity.setDate(LocalDateTime.now());

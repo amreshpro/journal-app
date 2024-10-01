@@ -5,7 +5,6 @@ import com.amreshpro.journal.repository.UserRepository;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -20,7 +19,6 @@ public class UserService {
         userEntity.setDate(LocalDateTime.now());
         userRepository.save(userEntity);
         return true;
-
     }
 
     public List<UserEntity> getAllUser() {
@@ -33,7 +31,6 @@ public class UserService {
 
     public Boolean updateUserById(UserEntity userEntity) {
         Boolean isUserExist = userRepository.existsById(userEntity.getUserId());
-
         if (isUserExist) {
             userEntity.setDate(LocalDateTime.now());
             userRepository.save(userEntity);

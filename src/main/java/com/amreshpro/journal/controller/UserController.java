@@ -3,7 +3,6 @@ package com.amreshpro.journal.controller;
 import com.amreshpro.journal.entity.UserEntity;
 import com.amreshpro.journal.service.UserService;
 import org.bson.types.ObjectId;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,65 +11,43 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/v1/user")
+@RequestMapping("/user")
 public class UserController {
 
-    @Autowired
-    UserService userService;
+    private final UserService userService;
+
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     @PostMapping
     public ResponseEntity<Boolean> saveUser(@RequestBody UserEntity userEntity) {
-        return new ResponseEntity<>(userService.saveUser(userEntity), HttpStatus.CREATED);
+        boolean isSaved = userService.saveUser(userEntity);
+        return new ResponseEntity<>(isSaved, HttpStatus.CREATED);
     }
-
 
     @GetMapping
     public ResponseEntity<List<UserEntity>> getAllUsers() {
-        List<UserEntity> userEntity = userService.getAllUser();
-        if (!userEntity.isEmpty()) {
-            return new ResponseEntity<>(userEntity, HttpStatus.OK);
-
-        } else {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-
-        }
-
+        List<UserEntity> users = userService.getAllUser();
+        return users.isEmpty() ? new ResponseEntity<>(HttpStatus.NO_CONTENT) : new ResponseEntity<>(users, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Optional<UserEntity>> getUserById(@PathVariable ObjectId id) {
-
         Optional<UserEntity> userEntity = userService.getUserById(id);
-        if (!userEntity.isEmpty()) {
-            return new ResponseEntity<>(userEntity, HttpStatus.OK);
-
-        } else {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-
-        }
-
+        return userEntity.map(user -> new ResponseEntity<>(Optional.of(user), HttpStatus.OK))
+                         .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @PatchMapping
     public ResponseEntity<Boolean> updateUserById(@RequestBody UserEntity userEntity) {
-
-        if (userService.updateUserById(userEntity)) {
-            return new ResponseEntity<>(true, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(false, HttpStatus.NO_CONTENT);
-        }
+        boolean isUpdated = userService.updateUserById(userEntity);
+        return isUpdated ? new ResponseEntity<>(true, HttpStatus.OK) : new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
     }
-
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Boolean> deleteUserById(@PathVariable ObjectId id) {
-        Boolean isSuccessfullyDeleted = userService.deleteUserById(id);
-        if(isSuccessfullyDeleted){
-            return new ResponseEntity<>(true, HttpStatus.OK);
-        }
-        return new ResponseEntity<>(false, HttpStatus.NO_CONTENT);
-
+        boolean isDeleted = userService.deleteUserById(id);
+        return isDeleted ? new ResponseEntity<>(true, HttpStatus.OK) : new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
     }
-
-
 }

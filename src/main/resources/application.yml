@@ -1,0 +1,22 @@
+server:
+  port: 8081
+spring:
+  application:
+    name: journal
+  data:
+    mongodb:
+      uri: mongodb+srv://amreshpro:amreshpro@cluster0.t7uni.mongodb.net/journalspring
+      auto-index-creation: true
+  security:
+    filter:
+      order: 10
+    user:
+      name: amresh
+      password: amreshpro
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    configUrl: /v3/api-docs/swagger-config
