@@ -5,7 +5,7 @@ spring:
     name: journal
   data:
     mongodb:
-      uri: mongodb+srv://amreshpro:amreshpro@cluster0.t7uni.mongodb.net/journalspring
+      uri:
       auto-index-creation: true
   security:
     filter:
