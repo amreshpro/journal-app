@@ -12,7 +12,9 @@ target/
 .settings
 .springBeans
 .sts4-cache
-
+ignoredb
+.env
+application.yml
 ### IntelliJ IDEA ###
 .idea
 *.iws
@@ -31,3 +33,4 @@ build/
 
 ### VS Code ###
 .vscode/
+/src/main/resources/application.yml
